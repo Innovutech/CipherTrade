@@ -1,0 +1,15 @@
+{
+  "name": "ciphertrade-token-metadata",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "tokens:validate": "node scripts/validate-token-metadata.mjs",
+    "tokens:build": "node scripts/build-token-list.mjs",
+    "tokens:scope": "node scripts/validate-pr-scope.mjs",
+    "test": "npm run tokens:validate && npm run tokens:build"
+  },
+  "engines": {
+    "node": ">=20"
+  }
+}
