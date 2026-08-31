@@ -1,0 +1,63 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/Innovutech/CipherTrade/main/token-metadata/schema/token-metadata.schema.json",
+  "title": "CipherTrade community token metadata",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "tokenAddress",
+    "private",
+    "tokenSymbol"
+  ],
+  "properties": {
+    "tokenAddress": {
+      "$ref": "#/$defs/evmAddress"
+    },
+    "private": {
+      "type": "boolean"
+    },
+    "tokenSymbol": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 32
+    },
+    "cgCoinId": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 128
+    },
+    "marketDataReference": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "tokenAddress"
+      ],
+      "properties": {
+        "chainId": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "tokenAddress": {
+          "oneOf": [
+            {
+              "const": "native"
+            },
+            {
+              "$ref": "#/$defs/evmAddress"
+            }
+          ]
+        },
+        "priceMultiplier": {
+          "type": "string",
+          "pattern": "^(?:0\\.(?:0*[1-9][0-9]*)|[1-9][0-9]*(?:\\.[0-9]+)?)$"
+        }
+      }
+    }
+  },
+  "$defs": {
+    "evmAddress": {
+      "type": "string",
+      "pattern": "^0x[a-fA-F0-9]{40}$"
+    }
+  }
+}

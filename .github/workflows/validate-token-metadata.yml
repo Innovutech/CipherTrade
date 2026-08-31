@@ -1,0 +1,59 @@
+name: Validate token metadata
+
+on:
+  pull_request:
+    paths:
+      - "token-metadata/**"
+      - "scripts/**"
+      - "package.json"
+      - ".github/pull_request_template.md"
+      - ".github/workflows/validate-token-metadata.yml"
+      - "README.md"
+      - "CONTRIBUTING.md"
+  push:
+    branches:
+      - main
+    paths:
+      - "token-metadata/**"
+      - "scripts/**"
+      - "package.json"
+      - ".github/workflows/validate-token-metadata.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Validate pull request scope
+        if: github.event_name == 'pull_request'
+        run: >-
+          npm run tokens:scope --
+          "${{ github.event.pull_request.base.sha }}"
+          "${{ github.event.pull_request.head.sha }}"
+
+      - name: Validate metadata and logos
+        run: npm run tokens:validate
+
+      - name: Build generated token lists
+        run: npm run tokens:build
+
+      - name: Upload generated token lists
+        uses: actions/upload-artifact@v4
+        with:
+          name: ciphertrade-token-lists
+          path: dist/
+          if-no-files-found: error
