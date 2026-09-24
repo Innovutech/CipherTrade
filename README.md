@@ -45,6 +45,17 @@ npm run tokens:validate
 npm run tokens:build
 ```
 
+## Published token lists
+
+Merges to `main` automatically publish the generated token lists to GitHub Pages:
+
+```text
+https://innovutech.github.io/CipherTrade/manifest.json
+https://innovutech.github.io/CipherTrade/chains/<chainId>.json
+```
+
+The publishing workflow can also be run manually from the GitHub Actions tab. GitHub Pages must use **GitHub Actions** as its publishing source in the repository settings.
+
 The build command writes generated lists to `dist/chains/<chainId>.json`. Generated entries match the submitted metadata and add the canonical `logoUrl` field.
 
 See [CONTRIBUTING.md](CONTRIBUTING.md) for submission requirements.
